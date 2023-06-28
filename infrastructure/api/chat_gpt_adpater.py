@@ -14,8 +14,8 @@ class ChatGPTAdapter:
                 {'role': 'system', 'content': 'You are a helpful assistant.'},
                 {'role': 'user', 'content': prompt}
             ],
-            max_tokens=1000,  # Limitar el número de tokens puede acelerar la respuesta.
-            temperature=0.3,  # Una temperatura más baja hace que la salida sea más determinista.
+            max_tokens=1300,  # Limitar el número de tokens puede acelerar la respuesta.
+            temperature=0.1,  # Una temperatura más baja hace que la salida sea más determinista.
         )
         formatted_response = self.format_response(response.choices[0].message['content'])
         return formatted_response
