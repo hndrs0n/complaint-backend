@@ -15,7 +15,7 @@ load_dotenv()
 
 # Crea la aplicación Flask.
 app = Flask(__name__)
-CORS(app)  # Esto maneja las políticas de CORS.
+CORS(app, resources={r"*": {"origins": "*"}}, supports_credentials=True)
 
 # Inicializa Firebase.
 initialize_firebase()
