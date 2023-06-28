@@ -1,0 +1,85 @@
+KEY_API_OPEN_API=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
+
+#Ejecutar el entorno virtual en python
+cd env/bin/activate
+bin source activate
+
+#para ver los modulos instalados
+pip list
+
+#librerias usadas
+pip install flask
+pip install requests
+pip install sqlalchemy   # solo si decides usarlo
+pip install pytest      # solo si decides usarlo
+
+
+/proyecto_matematicas
+|
+|--- /application
+|    |--- __init__.py
+|    |--- /use_cases
+|    |    |--- __init__.py
+|    |    |--- add_interaction_use_case.py
+|    |    |--- solve_math_problem_use_case.py
+|    |    |--- update_learning_context_use_case.py
+|    |    |--- register_student_use_case.py
+|    |    |--- ... (otros casos de uso)
+|    |--- /ports
+|    |    |--- __init__.py
+|    |    |--- student_repository.py
+|
+|--- /domain
+|    |--- __init__.py
+|    |--- student.py
+|    |--- ... (otros modelos de dominio)
+|
+|--- /infrastructure
+|    |--- __init__.py
+|    |--- web.py
+|    |--- /api
+|    |    |--- __init__.py
+|    |    |--- chat_gpt_adapter.py
+|    |--- /repositories
+|    |    |--- __init__.py
+|    |    |--- student_repository.py
+|
+|--- main.py
+|
+|--- firebase_config.json
+
+
+
+ara almacenar la información del estudiante en una base de datos, podrías considerar tener las siguientes tablas:
+
+    Tabla Students: Esta tabla almacenará la información básica de cada estudiante.
+
+StudentID (PK)	Name	Level
+1	Juan	2
+2	María	2
+...	...	...
+
+    Tabla LearningContexts: Esta tabla puede almacenar el contexto de aprendizaje para cada estudiante. Dado que el contexto de aprendizaje puede ser bastante complejo y variado, puedes considerar almacenarlo como un objeto JSON, si tu sistema de base de datos lo permite.
+
+StudentID (PK, FK)	Context (JSON)
+1	{ ... }
+2	{ ... }
+...	...
+
+    Tabla Grades: Si quieres mantener un registro de las calificaciones de cada estudiante, podrías tener una tabla separada para eso. Cada fila en esta tabla representaría una calificación para un estudiante en un tema o problema específico.
+
+StudentID (PK, FK)	Grade	Subject
+1	85	Math
+1	90	Math
+2	95	Math
+...	...	...
+
+    Tabla Interactions: Similarmente, podrías tener una tabla para registrar las interacciones de cada estudiante con el sistema.
+
+StudentID (PK, FK)	Question	Answer
+1	"¿Qué es 2+2?"	"2+2 es 4."
+1	"¿Qué es 3+3?"	"3+3 es 6."
+2	"¿Qué es 4+4?"	"4+4 es 8."
+...	...	...
+
+Por favor ten en cuenta que estas son solo sugerencias generales. La estructura de la base de datos debe adaptarse a los requerimientos específicos de tu aplicación.
