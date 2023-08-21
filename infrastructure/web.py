@@ -2,6 +2,7 @@
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_cors import cross_origin
 import firebase_admin
 from firebase_admin import credentials
 
@@ -15,7 +16,7 @@ load_dotenv()
 
 # Crea la aplicación Flask.
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000"])
+CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
 
 # Inicializa Firebase.
 initialize_firebase()

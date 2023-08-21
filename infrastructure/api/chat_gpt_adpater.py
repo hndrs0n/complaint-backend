@@ -40,11 +40,11 @@ class ChatGPTAdapter:
         response = self.get_response_part(topic_prompt)
 
         # Post-procesamiento para encontrar el tema más cercano
-        matched_topic = next((topic for topic in self.estrategias.keys() if topic in response), None)
-        print(matched_topic)
-        return matched_topic.lower()
+       
+        print(response)
+        return response.lower()
 
-    def get_response_part(self, prompt):
+    def get_response_part(self, prompt, max_tokens=500):
         
         openai_response = openai.ChatCompletion.create(
             model='gpt-3.5-turbo',
@@ -52,7 +52,7 @@ class ChatGPTAdapter:
                 {'role': 'system', 'content': 'You are a helpful assistant.'},
                 {'role': 'user', 'content': prompt}
             ],
-            max_tokens=500,
+            max_tokens=max_tokens,
             temperature=0.3,
         )
         
