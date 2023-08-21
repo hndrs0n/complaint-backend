@@ -54,6 +54,8 @@ def add_interaction_endpoint(id):
 
 @app.route('/students/<id>/solve', methods=['POST'])
 def solve_math_problem_endpoint(id):
+    print(request.json)
     data = request.json
-    response = solve_math_problem.execute(id, data)
+    response = solve_math_problem.execute(id, data['question'], data['response_type'])
+    print(response)
     return jsonify({'response': response}), 200

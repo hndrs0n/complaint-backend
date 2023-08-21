@@ -19,6 +19,7 @@
 |    |--- --__init__.py
 |    |--- apuntes.txt
 |    |--- env
+
 |    |--- .gitignore
 |    |--- main.py
 |    |--- .env
