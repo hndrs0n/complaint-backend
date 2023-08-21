@@ -15,7 +15,7 @@ load_dotenv()
 
 # Crea la aplicación Flask.
 app = Flask(__name__)
-CORS(app, resources={r"*": {"origins": "*"}}, supports_credentials=True)
+CORS(app, origins=["http://localhost:3000"])
 
 # Inicializa Firebase.
 initialize_firebase()
@@ -36,6 +36,6 @@ solve_math_problem = SolveMathProblemUseCase(student_repository, chat_gpt_adapte
 @app.route('/students/<id>/solve', methods=['POST'])
 def solve_math_problem_endpoint(id):
     data = request.json
-    response = solve_math_problem.execute(id, data['question'], data['response_type'])
+    response = solve_math_problem.execute(id, data['question'])
     print(response)
     return jsonify({'response': response}), 200

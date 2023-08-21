@@ -1,26 +1,51 @@
 import openai
 import os
-import json
+from .strategies import EstrategiaBase, SumaLlevando  # Importar las estrategias necesarias
 
 class ChatGPTAdapter:
     def __init__(self):
         openai.api_key = os.getenv('OPENAI_API_KEY')
+        self.estrategias = {
+            "sumas llevando": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
+            "restas prestando": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
+            "comparación de números": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
+            "problemas de sumas y retas": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
+            "anterior y posterior": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
+            "descomposición de números": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
+            "patrones numéricos": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
+            "operaciones combinadas de sumas y restas": SumaLlevando(self)
+        }
 
-    def generate_response(self, student, message, response_type):
+    def generate_response(self, student, message):
+        # Determinar el tema usando GPT-3
+        topic = self.determine_topic(message)
         
-        prompts = self.build_prompts(student, message)
+        # Buscar la estrategia correspondiente y generar la respuesta
+        estrategia = self.estrategias.get(topic)
+        if estrategia:
+            return estrategia.generar_respuesta(student, message)
         
-        response = {}
-        previous_responses = ''
+        # En caso de que no se encuentre una estrategia, devolvemos un mensaje genérico
+        return {
+            "response": {
+                "type": "unknown",
+                "content": "Lo siento, no pude determinar el tema de tu pregunta.",
+                "data": {}
+            }
+        }
 
-        # Only generate the requested response type
-        if response_type in prompts:
-            complete_prompt = prompts[response_type] + previous_responses
-            response[response_type] = self.get_response_part(complete_prompt)
+    def determine_topic(self, message):
+        topics_list = ", ".join(self.estrategias.keys())
+        topic_prompt = f"Basándote en la pregunta '{message}', ¿cuál de los siguientes temas es el más adecuado? Opciones: {topics_list}. Tu respuesta solo debe contener una de estas opciones, no agregues mas palabras solo nombre la opcion que corresponde."
+        response = self.get_response_part(topic_prompt)
 
-        return response
+        # Post-procesamiento para encontrar el tema más cercano
+        matched_topic = next((topic for topic in self.estrategias.keys() if topic in response), None)
+        print(matched_topic)
+        return matched_topic.lower()
 
     def get_response_part(self, prompt):
+        
         openai_response = openai.ChatCompletion.create(
             model='gpt-3.5-turbo',
             messages=[
@@ -30,41 +55,7 @@ class ChatGPTAdapter:
             max_tokens=500,
             temperature=0.3,
         )
-
+        
         response_text = openai_response.choices[0].message['content'].strip()
+        
         return response_text
-
-    def build_prompts(self, student, question):
-        prompts = {
-            'explicacion': (
-                f"Estás asistiendo a {student.name}, un estudiante de segundo grado de primaria que "
-                f"ha formulado la siguiente pregunta: \"{question}\". Necesitas interpretar la pregunta y proporcionar una "
-                f"explicación apropiada y detallada del concepto relacionado. Por favor, asegúrate de que tu explicación sea clara, "
-                f"utilizando un lenguaje sencillo y amigable. Recuerda que tu audiencia es un estudiante de 7 años. "
-                f"Además, intenta incluir ejemplos y métodos relevantes que puedan facilitar la comprensión del niño, "
-                f"como utilizar dibujos o métodos de conteo cuando sea apropiado. "
-                f"Finalmente, formatea la explicación con etiquetas HTML, sin incluir imagenes, para que la presentación sea más dinámica y atractiva para los niños.\n\n"
-            ),
-            'problema': (
-                f"Ahora, genera un problema específico relacionado con el concepto \"{question}\" "
-                f"para {student.name}. El problema debe ser relevante y apropiado para un estudiante de 7 anos.\n\n"
-                f"Explicación anterior: "
-            ),
-            'alternativas': (
-                f"Genial. Ahora, proporciona algunas alternativas de respuesta para el problema propuesto. "
-                f"Incluye tanto la respuesta correcta como algunas respuestas incorrectas.\n\n"
-                f"Problema propuesto: "
-            ),
-            'explicacion_dinamica': (
-                f"Perfecto. Ahora, genera una explicación detallada y atractiva para resolver el problema propuesto. "
-                f"Esta explicación debe ser comprensible para un estudiante de segundo grado.\n\n"
-                f"Alternativas propuestas: "
-            ),
-            'respuesta_incorrecta': (
-                f"Finalmente, genera un mensaje amigable y motivador en caso de que {student.name} elija una respuesta incorrecta. "
-                f"La explicación dinámica fue: "
-            ),
-        }
-
-        return prompts
-
