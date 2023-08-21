@@ -15,16 +15,14 @@ class ChatGPTAdapter:
 
         # Only generate the requested response type
         if response_type in prompts:
-            # Add previous responses to the prompt
             complete_prompt = prompts[response_type] + previous_responses
-            print(complete_prompt)
             response[response_type] = self.get_response_part(complete_prompt)
 
         return response
 
     def get_response_part(self, prompt):
         openai_response = openai.ChatCompletion.create(
-            model='gpt-4',
+            model='gpt-3.5-turbo',
             messages=[
                 {'role': 'system', 'content': 'You are a helpful assistant.'},
                 {'role': 'user', 'content': prompt}

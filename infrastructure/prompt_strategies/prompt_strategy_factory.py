@@ -20,7 +20,7 @@ class PromptStrategyFactory:
             "descomposicion_numeros": DescomposicionNumerosPrompt,
             "patrones_numericos": PatronesNumericosPrompt,
             "operaciones_combinadas": OperacionesCombinadasPrompt
-            # Añade aquí el resto de los temas
+            
         }
 
     def get_strategy(self, topic):

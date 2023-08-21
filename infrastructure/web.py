@@ -33,28 +33,8 @@ chat_gpt_adapter = ChatGPTAdapter()
 solve_math_problem = SolveMathProblemUseCase(student_repository, chat_gpt_adapter)
 
 
-
-@app.route('/students', methods=['POST'])
-def register_student_endpoint():
-    data = request.json
-    new_student = register_student.execute(data['id'], data['name'], data['level'])
-    return jsonify(new_student), 201
-
-@app.route('/students/<id>/context', methods=['PUT'])
-def update_learning_context_endpoint(id):
-    data = request.json
-    student = update_learning_context.execute(id, data)
-    return jsonify(student), 200
-
-@app.route('/students/<id>/interactions', methods=['POST'])
-def add_interaction_endpoint(id):
-    data = request.json
-    student = add_interaction.execute(id, data)
-    return jsonify(student), 200
-
 @app.route('/students/<id>/solve', methods=['POST'])
 def solve_math_problem_endpoint(id):
-    print(request.json)
     data = request.json
     response = solve_math_problem.execute(id, data['question'], data['response_type'])
     print(response)
