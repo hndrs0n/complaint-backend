@@ -39,21 +39,18 @@ class ChatGPTAdapter:
         topic_prompt = f"Basándote en la pregunta '{message}', ¿cuál de los siguientes temas es el más adecuado? Opciones: {topics_list}. Tu respuesta solo debe contener una de estas opciones, no agregues mas palabras solo nombre la opcion que corresponde."
         response = self.get_response_part(topic_prompt)
 
-        # Post-procesamiento para encontrar el tema más cercano
-       
-        print(response)
         return response.lower()
 
     def get_response_part(self, prompt, max_tokens=500):
         
         openai_response = openai.ChatCompletion.create(
-            model='gpt-3.5-turbo',
+            model='gpt-3.5-turbo-16k',
             messages=[
-                {'role': 'system', 'content': 'You are a helpful assistant.'},
+                {'role': 'system', 'content': 'You are a math teacher for children.'},
                 {'role': 'user', 'content': prompt}
             ],
             max_tokens=max_tokens,
-            temperature=0.3,
+            temperature=0.1,
         )
         
         response_text = openai_response.choices[0].message['content'].strip()

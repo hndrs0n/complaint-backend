@@ -4,11 +4,26 @@ from gtts import gTTS
 from pydub import AudioSegment
 import tempfile
 from gtts.lang import tts_langs
+import random
 
 
 class SumaLlevando:
     def __init__(self, adapter):
         self.adapter = adapter
+
+    def generate_example_numbers(self):
+        # Elegir los dígitos de las unidades de manera que su suma sea mayor que 9
+        unit1 = random.randint(5, 9)
+        unit2 = random.randint(10 - unit1, 9)
+        
+        # Elegir los dígitos de las decenas de manera aleatoria
+        ten1 = random.randint(1, 9)
+        ten2 = random.randint(1, 9)
+        
+        num1 = ten1 * 10 + unit1
+        num2 = ten2 * 10 + unit2
+        
+        return num1, num2
 
     def get_carry_digits(self, numbers):
         
@@ -48,24 +63,45 @@ class SumaLlevando:
     def generar_respuesta(self, student, message):
        
         explanation_prompt = (
-            f"¡Hola {student.name}! Vamos a hablar sobre la 'suma llevando'. Es una técnica que usamos cuando sumamos dos números y uno de los dígitos de la suma supera el 9. "
-            f"En ese caso, 'llevamos' 1 al siguiente dígito. Por favor, explica el proceso paso a paso de manera simple y divertida. "
-            f"La respuesta no debe tener más de 100 palabras."
+            f"Por favor, explica a {student.name} sobre la 'suma llevando o suma con transformación' para niños de 7 años. Es una técnica que usamos cuando sumamos dos números y uno de los dígitos de la suma supera el 9. "
+            f"En ese caso, 'llevamos' 1 al siguiente dígito. La explicación debe ser simple y divertida. Limita la respuesta a 100 palabras"
         )
 
-        explanation = self.adapter.get_response_part(explanation_prompt, max_tokens=500)
+        explanation_text = self.adapter.get_response_part(explanation_prompt, max_tokens=500)
 
+       
+        json_conversion_prompt = (
+            f"Convierte la siguiente explicación en una estructura json: \n\n"
+            f"'{explanation_text}'\n\n"
+            f"La respuesta debe estar en el siguiente formato JSON:\n"
+            f"{{\n"
+            f"  'saludo': 'Texto de saludo a {student.name} o introducción breve',\n"
+            f"  'tema': 'Descripción general del tema de suma llevando',\n"
+            f"  'ejemplo': {{\n"
+            f"    'problema': 'Problema o situación de suma llevando',\n"
+            f"    'pasos': ['Primer paso o acción', 'Segundo paso o acción', '...'],\n"
+            f"    'observaciones': ['Comentario o nota sobre el proceso', '...'],\n"
+            f"    'resultado': 'Resultado final de la suma llevando'\n"
+            f"  }},\n"
+            f"  'analogia': 'Analogía o metáfora sobre suma llevando',\n"
+            f"  'conclusion': 'Conclusión general sobre suma llevando',\n"
+            f"  'sugerencia_practica': 'Sugerencias para practicar suma llevando'\n"
+            f"}}\n"
+        )
 
-        numbers_example = self.adapter.get_response_part(f"Proporciona dos números específicos para realizar una 'suma llevando', unicamente proporcioname los numeros y deben estar separados por espacios.")
-        
-        numbers = [int(num) for num in numbers_example.split() if num.strip().isdigit()]
+        explanation_json = self.adapter.get_response_part(json_conversion_prompt, max_tokens=800)
+
+        num1, num2 = self.generate_example_numbers()
+         
+        numbers = [num1, num2]
+        print(numbers)
 
         narration_prompt = f"Por favor, narra paso a paso cómo sumar los números {numbers[0]} y {numbers[1]} utilizando la técnica de 'suma llevando'. Solo pon los pasos narrados para un nino de 7 anos"
         narration = self.adapter.get_response_part(narration_prompt, max_tokens=300)
-        text = "hola como estas"
-        tts = gTTS(text=text, lang='es')
-        print(tts)
-        narration_audio_base64 = self.text_to_base64_audio("Hola, ¿cómo estás?")
+        #text = "hola como estas"
+        #tts = gTTS(text=text, lang='es')
+        #print(tts)
+        #narration_audio_base64 = self.text_to_base64_audio("Hola, ¿cómo estás?")
         result = sum(numbers)
 
         carry_digits = self.get_carry_digits(numbers)
@@ -74,13 +110,13 @@ class SumaLlevando:
         return {
             "response": {
                 "type": "sumaLlevando",
-                "content": explanation,
+                "content": explanation_json,
                 "data": {
                     "numbers": numbers,
                     "result": result,
                     "carry_digits": carry_digits,
                     "narration": narration,
-                    "narration_audio": narration_audio_base64
+                    #"narration_audio": narration_audio_base64
                 }
             }
         }
