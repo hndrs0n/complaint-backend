@@ -61,17 +61,19 @@ class SumaLlevando:
         return audio_base64
 
     def generar_respuesta(self, student, message):
-       
+        num1, num2 = self.generate_example_numbers()
+         
+        numbers = [num1, num2]
         explanation_prompt = (
-            f"Por favor, explica a {student.name} sobre la 'suma llevando o suma con transformación' para niños de 7 años. Es una técnica que usamos cuando sumamos dos números y uno de los dígitos de la suma supera el 9. "
-            f"En ese caso, 'llevamos' 1 al siguiente dígito. La explicación debe ser simple y divertida. Limita la respuesta a 100 palabras"
+            f"Por favor '{student.name}' pregunto '{message}' , explica a  sobre la 'suma llevando'. "
+            f"En ese caso usa estos numeros {numbers} para explicar este concepto. La explicación debe ser  para niños de 7 años, simple y divertida. Limita la respuesta a 150 palabras"
         )
 
-        explanation_text = self.adapter.get_response_part(explanation_prompt, max_tokens=500)
+        explanation_text = self.adapter.get_response_part(explanation_prompt, max_tokens=800)
 
        
         json_conversion_prompt = (
-            f"Convierte la siguiente explicación en una estructura json: \n\n"
+            f"Revisa que este texto tenga sentido y convierte la siguiente explicación en una estructura json: \n\n"
             f"'{explanation_text}'\n\n"
             f"La respuesta debe estar en el siguiente formato JSON:\n"
             f"{{\n"
@@ -80,10 +82,8 @@ class SumaLlevando:
             f"  'ejemplo': {{\n"
             f"    'problema': 'Problema o situación de suma llevando',\n"
             f"    'pasos': ['Primer paso o acción', 'Segundo paso o acción', '...'],\n"
-            f"    'observaciones': ['Comentario o nota sobre el proceso', '...'],\n"
             f"    'resultado': 'Resultado final de la suma llevando'\n"
             f"  }},\n"
-            f"  'analogia': 'Analogía o metáfora sobre suma llevando',\n"
             f"  'conclusion': 'Conclusión general sobre suma llevando',\n"
             f"  'sugerencia_practica': 'Sugerencias para practicar suma llevando'\n"
             f"}}\n"
@@ -91,22 +91,10 @@ class SumaLlevando:
 
         explanation_json = self.adapter.get_response_part(json_conversion_prompt, max_tokens=800)
 
-        num1, num2 = self.generate_example_numbers()
-         
-        numbers = [num1, num2]
-        print(numbers)
 
-        narration_prompt = f"Por favor, narra paso a paso cómo sumar los números {numbers[0]} y {numbers[1]} utilizando la técnica de 'suma llevando'. Solo pon los pasos narrados para un nino de 7 anos"
-        narration = self.adapter.get_response_part(narration_prompt, max_tokens=300)
-        #text = "hola como estas"
-        #tts = gTTS(text=text, lang='es')
-        #print(tts)
-        #narration_audio_base64 = self.text_to_base64_audio("Hola, ¿cómo estás?")
         result = sum(numbers)
 
         carry_digits = self.get_carry_digits(numbers)
-
-        # Construyendo y retornando la estructura JSON deseada
         return {
             "response": {
                 "type": "sumaLlevando",
@@ -114,9 +102,7 @@ class SumaLlevando:
                 "data": {
                     "numbers": numbers,
                     "result": result,
-                    "carry_digits": carry_digits,
-                    "narration": narration,
-                    #"narration_audio": narration_audio_base64
+                    "carry_digits": carry_digits
                 }
             }
         }
