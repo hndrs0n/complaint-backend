@@ -2,21 +2,18 @@
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from flask_cors import cross_origin
-import firebase_admin
-from firebase_admin import credentials
 
-from application.use_cases import RegisterStudentUseCase, UpdateLearningContextUseCase, AddInteractionUseCase, SolveMathProblemUseCase
-from infrastructure.repositories.student_repository import FirebaseStudentRepository
-from infrastructure.api import ChatGPTAdapter
+from application.use_cases import AddInteractionUseCase, SolveMathProblemUseCase
 from config import initialize_firebase
+from infrastructure.api import ChatGPTAdapter
+from infrastructure.repositories.student_repository import FirebaseStudentRepository
 
 # Carga las variables de entorno desde el archivo .env
 load_dotenv()
 
 # Crea la aplicación Flask.
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
+CORS(app, origins=["http://localhost:3000","https://m4rbdf7q-3000.brs.devtunnels.ms"], supports_credentials=True)
 
 # Inicializa Firebase.
 initialize_firebase()
@@ -27,8 +24,6 @@ initialize_firebase()
 
 
 student_repository = FirebaseStudentRepository()
-register_student = RegisterStudentUseCase(student_repository)
-update_learning_context = UpdateLearningContextUseCase(student_repository)
 add_interaction = AddInteractionUseCase(student_repository)
 chat_gpt_adapter = ChatGPTAdapter()
 solve_math_problem = SolveMathProblemUseCase(student_repository, chat_gpt_adapter)

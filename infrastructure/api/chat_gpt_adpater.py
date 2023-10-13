@@ -1,13 +1,13 @@
 import openai
 import os
-from .strategies import EstrategiaBase, SumaLlevando  # Importar las estrategias necesarias
+from .strategies import EstrategiaBase, SumaLlevando, RestasPrestando  # Importar las estrategias necesarias
 
 class ChatGPTAdapter:
     def __init__(self):
         openai.api_key = os.getenv('OPENAI_API_KEY')
         self.estrategias = {
             "sumas llevando": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
-            "restas prestando": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
+            "restas prestando": RestasPrestando(self),  # Pasamos la instancia actual del Adapter a la estrategia
             "comparación de números": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
             "problemas de sumas y retas": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
             "anterior y posterior": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
@@ -17,15 +17,13 @@ class ChatGPTAdapter:
         }
 
     def generate_response(self, student, message):
-        # Determinar el tema usando GPT-3
+
         topic = self.determine_topic(message)
-        
-        # Buscar la estrategia correspondiente y generar la respuesta
+        print("El tema identificado es: " + topic)
         estrategia = self.estrategias.get(topic)
         if estrategia:
             return estrategia.generar_respuesta(student, message)
-        
-        # En caso de que no se encuentre una estrategia, devolvemos un mensaje genérico
+
         return {
             "response": {
                 "type": "unknown",
@@ -44,7 +42,7 @@ class ChatGPTAdapter:
     def get_response_part(self, prompt, max_tokens=500):
         
         openai_response = openai.ChatCompletion.create(
-            model='gpt-3.5-turbo-16k',
+            model='gpt-4',
             messages=[
                 {'role': 'system', 'content': 'You are a math teacher for children.'},
                 {'role': 'user', 'content': prompt}

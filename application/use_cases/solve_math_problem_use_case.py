@@ -1,6 +1,5 @@
 from application.ports.student_reposity import StudentRepository
 from infrastructure.api.chat_gpt_adpater import ChatGPTAdapter
-from domain.Student import Student
 from .add_interaction_use_case import AddInteractionUseCase
 
 class SolveMathProblemUseCase:
