@@ -14,5 +14,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar el resto del código de la aplicación
 COPY . .
 
+# Exponer el puerto 5000
+EXPOSE 5000
+
 # Comando para ejecutar la aplicación
 CMD ["python", "main.py"]
