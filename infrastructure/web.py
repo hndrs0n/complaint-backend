@@ -13,7 +13,7 @@ load_dotenv()
 
 # Crea la aplicación Flask.
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000","https://m4rbdf7q-3000.brs.devtunnels.ms"], supports_credentials=True)
+CORS(app, origins=["http://localhost:3000","https://6531a66351505f0008c56dbd--neon-sunshine-53f478.netlify.app"], supports_credentials=True)
 
 # Inicializa Firebase.
 initialize_firebase()
