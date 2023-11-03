@@ -1,4 +1,4 @@
-
+import logging
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -30,11 +30,13 @@ solveMathProblem = SolveMathProblemUseCase(questionRepository, chatGptAdapterGen
 
 @app.errorhandler(Exception)
 def error_handler(e):
+    logging.exception(handle_exception(e))
     return handle_exception(e)
 
 @app.route('/questions-with-example', methods=['POST'])
 def solve_math_problem_with_example_endpoint():
     data = request.json
+    logging.exception(f"Solicitud recibida con ejemplo: {data}")
     response = solveMathProblemWithExample.execute(data['question'])
     return jsonify({'response': response}), 200
 
@@ -42,5 +44,6 @@ def solve_math_problem_with_example_endpoint():
 @app.route('/questions', methods=['POST'])
 def solve_math_problem_endpoint():
     data = request.json
+    logging.exception(f"Solicitud recibida: {data}")
     response = solveMathProblem.execute(data['question'])
     return jsonify({'response': response}), 200
