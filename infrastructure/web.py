@@ -9,6 +9,7 @@ from application.use_cases import SolveMathProblemWithExampleUseCase, SolveMathP
 from infrastructure.api import ChatGPTAdapterGeneric, ChatGPTAdapter
 from infrastructure.repositories.FirebaseStudentRepository import FirebaseStudentRepository
 from infrastructure.repositories.FirebaseQuestionRepository import FirebaseQuestionRepository
+from infrastructure.exceptions.exception_handler import handle_exception
 
 # Carga las variables de entorno desde el archivo .env
 load_dotenv()
@@ -27,6 +28,9 @@ chatGptAdapterGeneric = ChatGPTAdapterGeneric()
 solveMathProblemWithExample = SolveMathProblemWithExampleUseCase(questionRepository, chatGptAdapter)
 solveMathProblem = SolveMathProblemUseCase(questionRepository, chatGptAdapterGeneric)
 
+@app.errorhandler(Exception)
+def error_handler(e):
+    return handle_exception(e)
 
 @app.route('/questions-with-example', methods=['POST'])
 def solve_math_problem_with_example_endpoint():
