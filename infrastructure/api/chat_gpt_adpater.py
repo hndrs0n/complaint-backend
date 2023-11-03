@@ -1,6 +1,6 @@
 import openai
 import os
-from .strategies import EstrategiaBase, SumaLlevando, RestasPrestando  # Importar las estrategias necesarias
+from .strategies import SumaLlevando, RestasPrestando
 
 class ChatGPTAdapter:
     def __init__(self):
@@ -19,10 +19,12 @@ class ChatGPTAdapter:
     def generate_response(self, message):
 
         topic = self.determine_topic(message)
-        print("El tema identificado es: " + topic)
+        print("El tema identificado es este: " + topic)
         estrategia = self.estrategias.get(topic)
         if estrategia:
-            return estrategia.generar_respuesta(message)
+            reponse = estrategia.generar_respuesta(message)
+            print("respuesta: " + reponse)
+            return reponse
 
         return {
             "response": {
