@@ -28,8 +28,8 @@ solveMathProblemWithExample = SolveMathProblemWithExampleUseCase(questionReposit
 solveMathProblem = SolveMathProblemUseCase(questionRepository, chatGptAdapterGeneric)
 
 
-@app.route('/students/<id>/solve', methods=['POST'])
-def solve_math_problem_with_example_endpoint(id):
+@app.route('/questions-with-example', methods=['POST'])
+def solve_math_problem_with_example_endpoint():
     data = request.json
     response = solveMathProblemWithExample.execute(data['question'])
     return jsonify({'response': response}), 200
