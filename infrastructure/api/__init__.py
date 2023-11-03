@@ -1,2 +1,2 @@
-from .chat_gpt_adpater import ChatGPTAdapter
+from .chat_gpt_adapater import ChatGPTAdapter
 from .chat_gpt_adpater_generic import ChatGPTAdapterGeneric

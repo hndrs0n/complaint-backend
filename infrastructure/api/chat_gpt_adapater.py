@@ -22,9 +22,7 @@ class ChatGPTAdapter:
         print("El tema identificado es este: " + topic)
         estrategia = self.estrategias.get(topic)
         if estrategia:
-            reponse = estrategia.generar_respuesta(message)
-            print("respuesta: " + reponse)
-            return reponse
+            return estrategia.generar_respuesta(message)
 
         return {
             "response": {
