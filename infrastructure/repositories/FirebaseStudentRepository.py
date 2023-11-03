@@ -1,8 +1,10 @@
-from application.ports.student_reposity import StudentRepository
+
 from domain.Student import Student
 from firebase_admin import db
 from typing import Optional
 import os
+
+from domain.repository.StudentRepository import StudentRepository
 
 
 class FirebaseStudentRepository(StudentRepository):

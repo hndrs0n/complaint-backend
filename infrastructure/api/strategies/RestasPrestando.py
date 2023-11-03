@@ -51,16 +51,16 @@ class RestasPrestando:
         return borrow_digits[::-1]
 
 
-    def generar_respuesta(self, student, message):
+    def generar_respuesta(self, message):
         self.set_numbers_from_message(message)
 
         numbers = [self.num1, self.num2]
         explanation_prompt = (
-            f"Por favor '{student.name}' pregunto '{message}' , explica a  sobre la 'restas prestando'. "
+            f"Por favor un estudiante de segundo grado de primaria pregunto '{message}' , explica a  sobre la 'restas prestando'. "
             f"En ese caso usa estos numeros {numbers} para explicar este concepto. La explicación debe ser  para niños de 7 años, simple y divertida. Limita la respuesta a 150 palabras"
             f"La respuesta debe estar en el siguiente formato JSON, no agregues saltos de linea:"
             f"{{"
-            f"  \"saludo\": \"Texto de saludo a {student.name} o introducción breve',"
+            f"  \"saludo\": \"Texto de saludo o introducción breve',"
             f"  \"tema\": \"Descripción general del tema de suma llevando',"
             f"  \"ejemplo\": {{"
             f"    \"problema\": \"Problema o situación de suma llevando\","

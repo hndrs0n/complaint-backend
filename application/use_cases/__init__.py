@@ -1,2 +1,3 @@
-from .add_interaction_use_case import AddInteractionUseCase
-from .solve_math_problem_use_case import SolveMathProblemUseCase
+from .SaveInteractionsUseCase import SaveInteractionUseCase
+from .SolveMathProblemWithExampleUseCase import SolveMathProblemWithExampleUseCase
+from .SolveMathProblemUseCase import SolveMathProblemUseCase

@@ -6,23 +6,23 @@ class ChatGPTAdapter:
     def __init__(self):
         openai.api_key = os.getenv('OPENAI_API_KEY')
         self.estrategias = {
-            "sumas llevando": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
-            "restas prestando": RestasPrestando(self),  # Pasamos la instancia actual del Adapter a la estrategia
+            "sumas llevando": SumaLlevando(self),
+            "restas prestando": RestasPrestando(self),
             "comparación de números": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
             "problemas de sumas y retas": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
             "anterior y posterior": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
             "descomposición de números": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
             "patrones numéricos": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
-            "operaciones combinadas de sumas y restas": SumaLlevando(self)
+            "operaciones combinadas de sumas y restas": SumaLlevando(self)
         }
 
-    def generate_response(self, student, message):
+    def generate_response(self, message):
 
         topic = self.determine_topic(message)
         print("El tema identificado es: " + topic)
         estrategia = self.estrategias.get(topic)
         if estrategia:
-            return estrategia.generar_respuesta(student, message)
+            return estrategia.generar_respuesta(message)
 
         return {
             "response": {
