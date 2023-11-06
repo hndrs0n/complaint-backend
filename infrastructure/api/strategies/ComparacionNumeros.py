@@ -1,5 +1,6 @@
 import random
 import re
+import json
 
 class ComparacionNumeros:
     def __init__(self, adapter):
@@ -38,14 +39,14 @@ class ComparacionNumeros:
             f"Por favor, explica al estudiante cómo comparar números. "
             f"Usa estos números {self.num1} y {self.num2} para explicar el concepto. "
             f"La explicación debe ser adecuada para niños de 7 años, simple y divertida. "
-            f"La respuesta debe estar en el siguiente formato JSON, no agregues saltos de linea:"
+            f"Asegurate de devolver una estructura JSON, por nada agregues saltos de linea, devuelve tal cual el json:"
             f"{{"
             f"  \"saludo\": \"Texto de saludo al estudiante o introducción breve.\","
             f"  \"tema\": \"Descripción general del tema Comparar números\","
             f"  \"ejemplo\": {{"
             f"    \"problema\": \"Problema o situación de comparacion de numeros\","
-            f"    \"pasos\": [Explica detallamente los pasos a seguir],"
-            f"    \"resultado\": \"Entonces, {comparison_result}.\""
+            f"    \"pasos\": [Explica detallamente los pasos a seguir utilizando una recta numerica],"
+            f"    \"resultado\": \"Resultado final de la comparacion\""
             f"  }},"
             f"  \"conclusion\": \"Conclusión general sobre comparar números\","
             f"  \"sugerencia_practica\": \"Sugerencias para practicar comparacion de numeros\""
@@ -54,11 +55,11 @@ class ComparacionNumeros:
 
         # Suponiendo que `self.adapter.get_response_part` es una llamada a un servicio que procesa el prompt y devuelve un JSON.
         explanation_json = self.adapter.get_response_part(explanation_prompt, max_tokens=800)
-
+        explanation = json.loads(explanation_json)
         return {
             "response": {
                 "type": "comparacionNumeros",
-                "content": explanation_json,
+                "content": explanation,
                 "data": {
                     "num1": self.num1,
                     "num2": self.num2,

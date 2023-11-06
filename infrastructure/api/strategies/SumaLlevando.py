@@ -1,5 +1,6 @@
 import random
 import re
+import json
 
 class SumaLlevando:
     def __init__(self, adapter):
@@ -57,7 +58,7 @@ class SumaLlevando:
         explanation_prompt = (
             f"Por favor un estudiante de segundo grado de primaria pregunto '{message}' , explica a  sobre la 'suma llevando'. "
             f"En ese caso usa estos numeros {numbers} para explicar este concepto. La explicación debe ser  para niños de 7 años, simple y divertida. Limita la respuesta a 150 palabras"
-            f"La respuesta debe estar en el siguiente formato JSON, no agregues saltos de linea:"
+            f"La respuesta debe estar en el siguiente formato JSON:"
             f"{{"
             f"  \"saludo\": \"Texto de saludo al estudiante o introducción breve',"
             f"  \"tema\": \"Descripción general del tema de suma llevando',"
@@ -72,14 +73,14 @@ class SumaLlevando:
         )
 
         explanation_json = self.adapter.get_response_part(explanation_prompt, max_tokens=800)
-
+        explanation = json.loads(explanation_json)
         result = sum(numbers)
 
         carry_digits = self.get_carry_digits()
         return {
             "response": {
                 "type": "sumaLlevando",
-                "content": explanation_json,
+                "content": explanation,
                 "data": {
                     "numbers": numbers,
                     "result": result,
