@@ -1,6 +1,6 @@
 import openai
 import os
-from .strategies import SumaLlevando, RestasPrestando, ComparacionNumeros, AnteriorPosterior
+from .strategies import SumaLlevando, RestasPrestando, ComparacionNumeros, AnteriorPosterior, DescomposicionNumeros, PatronesNumericos
 
 class ChatGPTAdapter:
     def __init__(self):
@@ -9,10 +9,9 @@ class ChatGPTAdapter:
             "sumas llevando": SumaLlevando(self),
             "restas prestando": RestasPrestando(self),
             "comparación de números": ComparacionNumeros(self),
-            "problemas de sumas y retas": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
             "anterior y posterior": AnteriorPosterior(self),
-            "descomposición de números": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
-            "patrones numéricos": SumaLlevando(self),  # Pasamos la instancia actual del Adapter a la estrategia
+            "descomposición de números": DescomposicionNumeros(self),
+            "patrones numéricos": PatronesNumericos(self),
             "operaciones combinadas de sumas y restas": SumaLlevando(self)
         }
 

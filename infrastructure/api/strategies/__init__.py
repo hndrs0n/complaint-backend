@@ -3,3 +3,5 @@ from .SumaLlevando import SumaLlevando
 from .RestasPrestando import RestasPrestando
 from .ComparacionNumeros import ComparacionNumeros
 from .AnteriorPosterior import AnteriorPosterior
+from .DescomposicionNumeros import DescomposicionNumeros
+from .PatronesNumericos import PatronesNumericos
