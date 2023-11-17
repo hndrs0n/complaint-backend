@@ -36,14 +36,12 @@ class DescomposicionNumeros:
             f"La respuesta debe estar en formato JSON, sin saltos de línea:"
             f"{{"
             f"  \"saludo\": \"¡Hola amigo matemático!\","
-            f"  \"tema\": \"Explica de forma clara sobre el tema\","
+            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y la solucion\","
             f"  \"ejemplo\": {{"
             f"    \"problema\": \"Plantea un problema con este numero  {self.num}\","
             f"    \"pasos\": [Explica los pasos, como si hubiera una grafico de bloques para reforzar el aprendizas],"
             f"    \"resultado\": \"Tienes {hundreds} centenas, {tens} decenas y {ones} unidades.\""
-            f"  }},"
-            f"  \"conclusion\": \"Ahora sabes cómo descomponer un número en sus partes.\","
-            f"  \"sugerencia_practica\": \"¡Intenta con otros números para ser un experto descomponiendo!\""
+            f"  }}"
             f"}}"
         )
 

@@ -32,14 +32,12 @@ class PatronesNumericos:
             f"La respuesta debe estar en formato JSON, sin saltos de línea:"
             f"{{"
             f"  \"saludo\": \"¡Hola, pequeño matemático!\","
-            f"  \"tema\": \"Hoy vamos a explorar el maravilloso mundo de los patrones numéricos.\","
+            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y la solucion\","
             f"  \"ejemplo\": {{"
             f"    \"problema\": \"Observa esta secuencia: {self.sequence}. ¿Puedes descubrir el patrón?\","
-            f"    \"pasos\": [\"Primero, mira la diferencia entre los números consecutivos.\", \"Identifica si hay que sumar o restar.\", \"Usa el patrón para predecir el siguiente número en la secuencia.\"],"
+            f"    \"pasos\": [\"Explica con una lista de pases y de manera breve y clara como solucionar el problema\"],"
             f"    \"resultado\": \"El patrón es sumar {step} cada vez.\""
             f"  }},"
-            f"  \"conclusion\": \"¿Ves? Con práctica, puedes encontrar patrones en cualquier lugar.\","
-            f"  \"sugerencia_practica\": \"Prueba con otras secuencias o incluso crea las tuyas para seguir practicando.\""
             f"}}"
         )
 

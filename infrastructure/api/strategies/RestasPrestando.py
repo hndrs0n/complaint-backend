@@ -62,14 +62,12 @@ class RestasPrestando:
             f"La respuesta debe estar en el siguiente formato JSON:"
             f"{{"
             f"  \"saludo\": \"Texto de saludo o introducción breve',"
-            f"  \"tema\": \"Descripción general del tema de suma llevando',"
+            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y la solucion\","
             f"  \"ejemplo\": {{"
             f"    \"problema\": \"Problema o situación de suma llevando\","
             f"    \"pasos\": [\"Primer paso o acción\", \"Segundo paso o acción\", \"...\"],"
             f"    \"resultado\": \"Resultado final de la suma llevando\""
-            f"  }},"
-            f"  \"conclusion\": \"Conclusión general sobre suma llevando\","
-            f"  \"sugerencia_practica\": \"Sugerencias para practicar suma llevando\""
+            f"  }}"
             f"}}"
         )
 
