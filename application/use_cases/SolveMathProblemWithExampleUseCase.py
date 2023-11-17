@@ -1,4 +1,3 @@
-from application.ports.student_reposity import StudentRepository
 from domain.repository.QuestionRepository import QuestionRepository
 from infrastructure.api.chat_gpt_adapater import ChatGPTAdapter
 from .SaveInteractionsUseCase import SaveInteractionUseCase

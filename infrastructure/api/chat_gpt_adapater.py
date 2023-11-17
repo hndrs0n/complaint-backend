@@ -18,18 +18,19 @@ class ChatGPTAdapter:
     def generate_response(self, message):
 
         topic = self.determine_topic(message)
-        print("El tema identificado es este: " + topic)
         estrategia = self.estrategias.get(topic)
         if estrategia:
             return estrategia.generar_respuesta(message)
 
-        return {
-            "response": {
-                "type": "unknown",
-                "content": "Lo siento, no pude determinar el tema de tu pregunta.",
-                "data": {}
-            }
-        }
+        prompt = self.generate_promt_other_topic(message)
+        return self.get_response_part(prompt)
+
+
+    def generate_promt_other_topic(self, message):
+        topics_list = ", ".join(self.estrategias.keys())
+        return (f"Un nino de segundo grado de primaria consulta lo siguiente: '{message}'."
+                f"Tu eres un asesor de mateticas de segundo grado de primaria y como la pregunta no tiene que ver con matematicas, "
+                f"Indica que no puedes responder y recuerdale que tu especialidad es cualquiera de estos temas: {topics_list}.")
 
     def determine_topic(self, message):
         topics_list = ", ".join(self.estrategias.keys())
