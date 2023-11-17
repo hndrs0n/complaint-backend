@@ -35,7 +35,7 @@ class AnteriorPosterior:
             f"La respuesta debe estar en formato JSON, sin saltos de línea:"
             f"{{"
             f"  \"saludo\": \"Realiza un saludo motivador al estudiante\","
-            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y la solucion\","
+            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y los pasos de la solucion\","
             f"  \"ejemplo\": {{"
             f"    \"problema\": \"Crea un problema de número anterior y posterior con {self.num}\","
             f"    \"pasos\": [\"Describe una lista de pasos de manera resumida y clara para el nino\"],"

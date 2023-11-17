@@ -61,7 +61,7 @@ class SumaLlevando:
             f"La respuesta debe estar en el siguiente formato JSON:"
             f"{{"
             f"  \"saludo\": \"Texto de saludo al estudiante o introducción breve',"
-            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y la solucion\","
+            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y los pasos de la solucion\","
             f"  \"ejemplo\": {{"
             f"    \"problema\": \"Problema o situación de suma llevando\","
             f"    \"pasos\": [\"Primer paso o acción\", \"Segundo paso o acción\", \"...\"],"

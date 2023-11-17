@@ -42,7 +42,7 @@ class ComparacionNumeros:
             f"Asegurate de devolver una estructura JSON, por nada agregues saltos de linea, devuelve tal cual el json:"
             f"{{"
             f"  \"saludo\": \"Texto de saludo al estudiante o introducción breve.\","
-            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y la solucion\","
+            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y los pasos de la solucion\","
             f"  \"ejemplo\": {{"
             f"    \"problema\": \"Problema o situación de comparacion de numeros\","
             f"    \"pasos\": [Explica detallamente los pasos a seguir utilizando una recta numerica],"

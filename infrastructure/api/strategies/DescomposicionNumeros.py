@@ -36,7 +36,7 @@ class DescomposicionNumeros:
             f"La respuesta debe estar en formato JSON, sin saltos de línea:"
             f"{{"
             f"  \"saludo\": \"¡Hola amigo matemático!\","
-            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y la solucion\","
+            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y los pasos de la solucion\","
             f"  \"ejemplo\": {{"
             f"    \"problema\": \"Plantea un problema con este numero  {self.num}\","
             f"    \"pasos\": [Explica los pasos, como si hubiera una grafico de bloques para reforzar el aprendizas],"

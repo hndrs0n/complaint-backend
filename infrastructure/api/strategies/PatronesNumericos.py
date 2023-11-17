@@ -32,7 +32,7 @@ class PatronesNumericos:
             f"La respuesta debe estar en formato JSON, sin saltos de línea:"
             f"{{"
             f"  \"saludo\": \"¡Hola, pequeño matemático!\","
-            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y la solucion\","
+            f"  \"audio\": \"Un texto que sera reproducido en audio explicando el problema y los pasos de la solucion\","
             f"  \"ejemplo\": {{"
             f"    \"problema\": \"Observa esta secuencia: {self.sequence}. ¿Puedes descubrir el patrón?\","
             f"    \"pasos\": [\"Explica con una lista de pases y de manera breve y clara como solucionar el problema\"],"
