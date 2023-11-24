@@ -33,6 +33,7 @@ def error_handler(e):
 @app.route('/questions-with-example', methods=['POST'])
 def solve_math_problem_with_example_endpoint():
     data = request.json
-    logging.exception(f"Solicitud recibida con ejemplo: {data}")
+
     response = solveMathProblemWithExample.execute(data['question'])
+
     return jsonify({'response': response}), 200

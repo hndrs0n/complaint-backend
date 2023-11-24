@@ -6,13 +6,13 @@ class ChatGPTAdapter:
     def __init__(self):
         openai.api_key = os.getenv('OPENAI_API_KEY')
         self.estrategias = {
-            "sumas llevando": SumaLlevando(self),
-            "restas prestando": RestasPrestando(self),
-            "comparación de números": ComparacionNumeros(self),
-            "anterior y posterior": AnteriorPosterior(self),
-            "descomposición de números": DescomposicionNumeros(self),
-            "patrones numéricos": PatronesNumericos(self),
-            "operaciones combinadas de sumas y restas": SumaLlevando(self)
+            "sumas llevando (solo numeros menores a 1000)": SumaLlevando(self),
+            "restas prestando (solo numeros menores a 1000)": RestasPrestando(self),
+            "comparación de números (solo numeros menores a 1000)": ComparacionNumeros(self),
+            "anterior y posterior (solo numeros menores a 1000)": AnteriorPosterior(self),
+            "descomposición de números (solo numeros menores a 1000)": DescomposicionNumeros(self),
+            "patrones numéricos (solo numeros menores a 1000)": PatronesNumericos(self),
+            "operaciones combinadas de sumas y restas (solo numeros menores a 1000)": SumaLlevando(self)
         }
 
     def generate_response(self, message):
@@ -34,7 +34,7 @@ class ChatGPTAdapter:
 
     def determine_topic(self, message):
         topics_list = ", ".join(self.estrategias.keys())
-        topic_prompt = f"Basándote en la pregunta '{message}', ¿cuál de los siguientes temas es el más adecuado? Opciones: {topics_list}. Tu respuesta solo debe contener una de estas opciones, no agregues mas palabras solo nombre la opcion que corresponde."
+        topic_prompt = (f"Basándote en la pregunta '{message}', responde ¿cuál de los siguientes temas es el más adecuado? Opciones: {topics_list}. Tu respuesta solo debe contener una de estas opciones y los numeros deben ser menores a 1000, no agregues mas palabras solo nombre la opcion que corresponde.")
         response = self.get_response_part(topic_prompt)
 
         return response.lower()

@@ -51,7 +51,6 @@ class ComparacionNumeros:
             f"}}"
         )
 
-        # Suponiendo que `self.adapter.get_response_part` es una llamada a un servicio que procesa el prompt y devuelve un JSON.
         explanation_json = self.adapter.get_response_part(explanation_prompt, max_tokens=800)
         explanation = json.loads(explanation_json)
         return {
