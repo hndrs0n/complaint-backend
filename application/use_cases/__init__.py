@@ -1,3 +1,3 @@
 from .SaveInteractionsUseCase import SaveInteractionUseCase
-from .SolveMathProblemWithExampleUseCase import SolveMathProblemWithExampleUseCase
+from .SaveComplaintUseCase import SaveComplaintUseCase
 

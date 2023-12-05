@@ -1,40 +1,28 @@
 import openai
 import os
-from .strategies import SumaLlevando, RestasPrestando, ComparacionNumeros, AnteriorPosterior, DescomposicionNumeros, PatronesNumericos
+from .strategies import MoneyBack, Change, Other
 
 class ChatGPTAdapter:
     def __init__(self):
         openai.api_key = os.getenv('OPENAI_API_KEY')
         self.estrategias = {
-            "sumas llevando (solo numeros menores a 1000)": SumaLlevando(self),
-            "restas prestando (solo numeros menores a 1000)": RestasPrestando(self),
-            "comparación de números (solo numeros menores a 1000)": ComparacionNumeros(self),
-            "anterior y posterior (solo numeros menores a 1000)": AnteriorPosterior(self),
-            "descomposición de números (solo numeros menores a 1000)": DescomposicionNumeros(self),
-            "patrones numéricos (solo numeros menores a 1000)": PatronesNumericos(self),
-            "operaciones combinadas de sumas y restas (solo numeros menores a 1000)": SumaLlevando(self)
+            "devolucion de dinero": MoneyBack(self),
+            "cambio de producto": Change(self),
+            "otros": Other(self)
         }
 
-    def generate_response(self, message):
+    def generate_response(self, message, topic):
 
-        topic = self.determine_topic(message)
+        if not topic:
+            return self.determine_topic(message)
+
         estrategia = self.estrategias.get(topic)
-        if estrategia:
-            return estrategia.generar_respuesta(message)
 
-        prompt = self.generate_promt_other_topic(message)
-        return self.get_response_part(prompt)
-
-
-    def generate_promt_other_topic(self, message):
-        topics_list = ", ".join(self.estrategias.keys())
-        return (f"Un nino de segundo grado de primaria consulta lo siguiente: '{message}'."
-                f"Tu eres un asesor de mateticas de segundo grado de primaria llamado Smart tutor, como la pregunta no tiene que ver con matematicas, "
-                f"Indica que no puedes responder y recuerdale que tu especialidad es cualquiera de estos temas: {topics_list}.")
+        return estrategia.generar_respuesta(message)
 
     def determine_topic(self, message):
         topics_list = ", ".join(self.estrategias.keys())
-        topic_prompt = (f"Basándote en la pregunta '{message}', responde ¿cuál de los siguientes temas es el más adecuado? Opciones: {topics_list}. Tu respuesta solo debe contener una de estas opciones y los numeros deben ser menores a 1000, no agregues mas palabras solo nombre la opcion que corresponde.")
+        topic_prompt = (f"Basandote en el siguiente reclamo: '{message}', responde ¿cuál de los siguientes temas es el más adecuado? Opciones: {topics_list}. Tu respuesta solo debe contener una de estas opciones, no agregues mas palabras solo nombre la opcion que corresponde.")
         response = self.get_response_part(topic_prompt)
 
         return response.lower()
@@ -42,9 +30,9 @@ class ChatGPTAdapter:
     def get_response_part(self, prompt, max_tokens=500):
         
         openai_response = openai.ChatCompletion.create(
-            model='gpt-4',
+            model='gpt-3.5-turbo',
             messages=[
-                {'role': 'system', 'content': 'You are a math teacher for children.'},
+                {'role': 'system', 'content': 'You are the customer service manager in a department store'},
                 {'role': 'user', 'content': prompt}
             ],
             max_tokens=max_tokens,

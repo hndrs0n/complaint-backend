@@ -4,13 +4,12 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from config import initialize_firebase
 
-from application.use_cases import SolveMathProblemWithExampleUseCase
+from application.use_cases import SaveComplaintUseCase
 
 from infrastructure.api import ChatGPTAdapter
-from infrastructure.repositories.FirebaseQuestionRepository import FirebaseQuestionRepository
+from infrastructure.repositories.FirebaseComplaintRepository import FirebaseComplaintRepository
 from infrastructure.exceptions.exception_handler import handle_exception
 
-# Carga las variables de entorno desde el archivo .env
 load_dotenv()
 
 # Crea la aplicación Flask.
@@ -21,19 +20,20 @@ CORS(app, origins=["http://localhost:3000","https://6531a66351505f0008c56dbd--ne
 initialize_firebase()
 
 
-questionRepository = FirebaseQuestionRepository()
+firebaseComplaintRepository = FirebaseComplaintRepository()
 chatGptAdapter = ChatGPTAdapter()
-solveMathProblemWithExample = SolveMathProblemWithExampleUseCase(questionRepository, chatGptAdapter)
+
+saveComplaintUseCase = SaveComplaintUseCase(firebaseComplaintRepository, chatGptAdapter)
 
 @app.errorhandler(Exception)
 def error_handler(e):
     logging.exception(handle_exception(e))
     return handle_exception(e)
 
-@app.route('/questions-with-example', methods=['POST'])
-def solve_math_problem_with_example_endpoint():
+@app.route('/complaint', methods=['POST'])
+def save_complaint_endpoint():
     data = request.json
 
-    response = solveMathProblemWithExample.execute(data['question'])
+    saveComplaintUseCase.execute(data['complaint'])
 
-    return jsonify({'response': response}), 200
+    return "Proceso exitoso", 200

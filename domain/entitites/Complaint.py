@@ -1,12 +1,12 @@
-class Question:
-    def __init__(self, id, question, answer, type):
+class Complaint:
+    def __init__(self, id, complaint, answer, type):
         self.id = id
-        self.question = question
+        self.complaint = complaint
         self.answer = answer
         self.type = type
 
     def get_question(self):
-        return self.question
+        return self.complaint
 
     def get_answer(self):
         return self.answer
@@ -14,8 +14,8 @@ class Question:
     def get_id(self):
         return self.id
 
-    def set_question(self, question):
-        self.question = question
+    def set_complaint(self, complaint):
+        self.complaint = complaint
 
     def set_answer(self, answer):
         self.answer = answer

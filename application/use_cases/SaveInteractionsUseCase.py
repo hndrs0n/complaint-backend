@@ -1,16 +1,16 @@
 import uuid
 
-from domain.Question import Question
-from domain.repository.QuestionRepository import QuestionRepository
+from domain.entitites.Complaint import Complaint
+from domain.repository.ComplaintRepository import ComplaintRepository
 
 
 class SaveInteractionUseCase:
 
-    def __init__(self, question_repository: QuestionRepository):
-        self.question_repository = question_repository
+    def __init__(self, complaint_repository: ComplaintRepository):
+        self.complaint_repository = complaint_repository
         pass
 
-    def execute(self, question_user: str, answer: str, type: str):
-        question_id = str(uuid.uuid4())
-        question_entity = Question(question_id, question_user, answer, type)
-        self.question_repository.save(question_entity)
+    def execute(self, complaint: str, answer: str, type: str):
+        complaint_id = str(uuid.uuid4())
+        complaint_entity = Complaint(complaint_id, complaint, answer, type)
+        self.complaint_repository.save(complaint_entity)
